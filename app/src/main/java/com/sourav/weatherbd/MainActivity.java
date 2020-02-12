@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView pressure;
     private TextView condition;
     private TextView status;
+    private TextView max;
+    private TextView min;
     protected Data receivedData;
     private OpenWeatherAPI openWeatherAPI;
     private SharedPreferences preferences;
@@ -74,13 +76,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        location = findViewById(R.id.tvLocation);
-        temp = findViewById(R.id.tvTemp);
-        humid = findViewById(R.id.tvHumid);
-        pressure = findViewById(R.id.tvPress);
-        condition = findViewById(R.id.tvCondition);
-        status = findViewById(R.id.status);
-
+        initializeViews();
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         getSettings();
         gson = new Gson();
@@ -104,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         openWeatherAPI = retrofit.create(OpenWeatherAPI.class);
         getWeather(location);
     }
+
+
 
     private void getSettings() {
         city = preferences.getString("loc","dhaka");
@@ -199,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
             pressureUnit = "PSI";
         }
         String tempValue =String.valueOf((int)data.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
+        String maxTempValue =String.valueOf((int)data.getMain().getMax()) + (char) 0x00B0 + degreeUnit;
+        String minTempValue =String.valueOf((int)data.getMain().getMin()) + (char) 0x00B0 + degreeUnit;
         String humidValue = (data.getMain().getHumidity())+ " " + humidUnit;
         String pressureValue = (data.getMain().getPressure())+ " " + pressureUnit;
         String loc = data.getName();
@@ -217,9 +217,21 @@ public class MainActivity extends AppCompatActivity {
         pressure.setText(pressureValue);
         location.setText(loc);
         condition.setText(cond);
+        max.setText(maxTempValue);
+        min.setText(minTempValue);
 
     }
 
+    private void initializeViews() {
+        location = findViewById(R.id.tvLocation);
+        temp = findViewById(R.id.tvTemp);
+        humid = findViewById(R.id.tvHumid);
+        pressure = findViewById(R.id.tvPress);
+        condition = findViewById(R.id.tvCondition);
+        status = findViewById(R.id.status);
+        max = findViewById(R.id.tvMax);
+        min = findViewById(R.id.tvMin);
+    }
     private Data parseJson(){
         Gson gson = new Gson();
         String json = "{\"coord\":{\"lon\":-122.08,\"lat\":37.39},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01d\"}],\"base\":\"stations\",\"main\":{\"temp\":282.55,\"feels_like\":281.86,\"temp_min\":280.37,\"temp_max\":284.26,\"pressure\":1023,\"humidity\":100},\"visibility\":16093,\"wind\":{\"speed\":1.5,\"deg\":350},\"clouds\":{\"all\":1},\"dt\":1560350645,\"sys\":{\"type\":1,\"id\":5122,\"message\":0.0139,\"country\":\"US\",\"sunrise\":1560343627,\"sunset\":1560396563},\"timezone\":-25200,\"id\":420006353,\"name\":\"Mountain View\",\"cod\":200}";
