@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Location">
+
+        <EditTextPreference
+            android:defaultValue="Dhaka"
+            android:key="@string/loc_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/loc_summery"
+            android:title="@string/loc_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Others">
+        <ListPreference
+            android:defaultValue="metric"
+            android:entries="@array/systemName"
+            android:entryValues="@array/systemVals"
+            android:key="@string/unit_key"
+            android:title="@string/unit_title"
+            android:summary="Select if you want to use celsius of fahrenheit"/>
+    </PreferenceCategory>
+</PreferenceScreen>

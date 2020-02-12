@@ -8,7 +8,7 @@ public interface OpenWeatherAPI {
     //@GET("data/2.5/weather")
     //Call<Data> getWeatherData(@QueryMap Map<String[],String> params);
     @GET("data/2.5/weather")
-    Call<Data> getWeatherData(@Query("q") String[] params,
+    Call<Data> getWeatherData(@Query("q") String params,
                               @Query("appid") String api,
                               @Query("units") String unit);
 }

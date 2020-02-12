@@ -1,12 +1,19 @@
 package com.sourav.weatherbd;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -25,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "Weather Data" ;
+    private static final String TAG = "Weather Log" ;
     private TextView location;
     private TextView temp;
     private TextView humid;
@@ -34,19 +41,34 @@ public class MainActivity extends AppCompatActivity {
     private TextView status;
     protected Data receivedData;
     private OpenWeatherAPI openWeatherAPI;
-    private final String city = "Dhaka";
+    private SharedPreferences preferences;
+    private  String city;
+    private String unit;
     private final String countryCode = "bd";
     private final String api = "6ef31b54f38ce5a3e5496e7ae5c7654f";
-    private final String unit = "metric";
     private final String filename = "weatherData";
     private Gson gson;
 
+    //Menu Bullshits start
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+            case R.id.about:
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    // Menu Bullshit Ends
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +80,10 @@ public class MainActivity extends AppCompatActivity {
         pressure = findViewById(R.id.tvPress);
         condition = findViewById(R.id.tvCondition);
         status = findViewById(R.id.status);
-        //String location = city + "," + countryCode;
-        //data = parseJson();
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        getSettings();
         gson = new Gson();
-
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -77,15 +98,25 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //Map <String[], String> params = new HashMap<>();
-        String[] location = {city,countryCode};
+        String location = city+","+countryCode;
         //params.put("q", location);
         //params.put("appid", "6ef31b54f38ce5a3e5496e7ae5c7654f");
         openWeatherAPI = retrofit.create(OpenWeatherAPI.class);
         getWeather(location);
     }
 
-    private void getWeather(String[] location) {
+    private void getSettings() {
+        city = preferences.getString("loc","dhaka");
+        unit = preferences.getString("unit","metric");
+        Log.d(TAG, "getSettings: Loaded City: "+city);
+        Log.d(TAG, "getSettings: Loaded Unit: "+unit);
+    }
+
+    private void getWeather(String location) {
+        Log.d(TAG, "getWeather: Called");
         Call<Data> call = openWeatherAPI.getWeatherData(location,api,unit);
+        Log.d(TAG, "getWeather: Received Location: "+location);
+        Log.d(TAG, "getWeather: Received Units: "+unit);
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
@@ -160,23 +191,30 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void populate(Data data) {
-        double valTemp = data.getMain().getTemp();
-        double valhumid = data.getMain().getHumidity();
-        double valpressure = data.getMain().getPressure();
+        String degreeUnit = "C";
+        String pressureUnit = "Pa";
+        String humidUnit = "%";
+        if (unit.equals("imperial")){
+            degreeUnit = "F";
+            pressureUnit = "PSI";
+        }
+        String tempValue =String.valueOf((int)data.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
+        String humidValue = (data.getMain().getHumidity())+ " " + humidUnit;
+        String pressureValue = (data.getMain().getPressure())+ " " + pressureUnit;
         String loc = data.getName();
         Weather weii = data.getWeather().get(0);
         String cond = weii.getMain();
 
-        Log.d(TAG, "populate: Temp: "+valTemp);
-        Log.d(TAG, "populate: Humid: "+valhumid);
-        Log.d(TAG, "populate: pressure: "+valpressure);
+        Log.d(TAG, "populate: Temp: "+tempValue);
+        Log.d(TAG, "populate: Humid: "+humidValue);
+        Log.d(TAG, "populate: pressure: "+pressureValue);
         Log.d(TAG, "populate: location: "+loc);
         Log.d(TAG, "populate: Condition: "+cond);
 
         location.setText(loc);
-        temp.setText(String.valueOf(valTemp));
-        humid.setText(String.valueOf(valhumid));
-        pressure.setText(String.valueOf(valpressure));
+        temp.setText(tempValue);
+        humid.setText(humidValue);
+        pressure.setText(pressureValue);
         location.setText(loc);
         condition.setText(cond);
 
