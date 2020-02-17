@@ -1,4 +1,4 @@
-package com.sourav.weatherbd;
+package com.sourav.weatherbd.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.sourav.weatherbd.Models.Data;
+import com.sourav.weatherbd.Models.Weather;
+import com.sourav.weatherbd.Interfaces.OpenWeatherAPI;
+import com.sourav.weatherbd.R;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.settings:
-                startActivity(new Intent(this,SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
             case R.id.about:
 
             default:
