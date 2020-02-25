@@ -124,16 +124,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Data> call, Response<Data> response) {
                 if (response.isSuccessful()){
                     Log.d(TAG, "onResponse: Response Successful");
-                    status.setText("Received Code: ");
-                    status.append(String.valueOf(response.code()));
                     Log.d(TAG, "onResponse: Status "+ response.code());
 
                     if (response.body() != null) {
                         receivedData = response.body();
                         Log.d(TAG, "onResponse: Data Received!");
                     }else{
-                        status.setText("");
-                        status.setText("Received NULL DATA");
                         Log.d(TAG, "onResponse: NULL data Received");
                      }
 
@@ -146,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
-                status.setText("");
-                status.setText("Enable to connect. Using Last saved weather Data");
                 String prevData = null;
                 try {
                     prevData = readJson();
@@ -232,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
         humid = findViewById(R.id.tvHumid);
         pressure = findViewById(R.id.tvPress);
         condition = findViewById(R.id.tvCondition);
-        status = findViewById(R.id.status);
         max = findViewById(R.id.tvMax);
         min = findViewById(R.id.tvMin);
     }

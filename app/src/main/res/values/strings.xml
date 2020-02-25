@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">WeatherBD</string>
     <string name="settings">Settings</string>
@@ -22,4 +23,10 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="unit_key">unit</string>
+    <string name="layout_val_null">null</string>
+    <string name="layout_title_humidity">Humidity</string>
+    <string name="layout_title_pressure">Pressure</string>
+    <string name="layout_title_max_temp">Max Temp</string>
+    <string name="layout_title_min_temp">Min Temp</string>
+    <string name="layout_title_refresh">Refresh</string>
 </resources>
