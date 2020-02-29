@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +12,7 @@ import androidx.preference.PreferenceManager;
 import com.sourav.weatherbd.Models.Structures.Data;
 import com.sourav.weatherbd.Models.Structures.SimplifiedWeatherModel;
 import com.sourav.weatherbd.Models.WeatherSource;
-import com.sourav.weatherbd.WeatherRepositoryDB;
+import com.sourav.weatherbd.repositories.WeatherRepositoryDB;
 
 public class WeatherViewModel extends AndroidViewModel {
     private static final String TAG = "ViewModel";
@@ -21,8 +20,8 @@ public class WeatherViewModel extends AndroidViewModel {
     private LiveData<SimplifiedWeatherModel> weatherdata;
     private String location, unit;
     private WeatherSource weatherSource;
-    SharedPreferences sharedPreferences;
-    MutableLiveData<Data> mLiveData;
+    private SharedPreferences sharedPreferences;
+    private MutableLiveData<Data> mLiveData;
 
     public WeatherViewModel(Application application) {
         super(application);
@@ -47,7 +46,7 @@ public class WeatherViewModel extends AndroidViewModel {
         Log.d(TAG, "fetchWeather: RUN");
         getSettings();
         weatherSource.fetchWeather(location,unit);
-        mLiveData = weatherSource.getRecived();
+        mLiveData = weatherSource.getReceived();
     }
 
     public void insert(SimplifiedWeatherModel weatherModel){
@@ -62,6 +61,7 @@ public class WeatherViewModel extends AndroidViewModel {
         return weatherdata;
     }
 
+    // Fetches settings from shared preference
     private void getSettings() {
         String city;
         city = sharedPreferences.getString("loc","dhaka");
@@ -70,6 +70,8 @@ public class WeatherViewModel extends AndroidViewModel {
         Log.d(TAG, "getSettings: Loaded City: "+city);
         Log.d(TAG, "getSettings: Loaded Unit: "+unit);
     }
+
+    // Setters
     public void setLocation(String location) {
         this.location = location;
     }

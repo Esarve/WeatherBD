@@ -1,4 +1,4 @@
-package com.sourav.weatherbd;
+package com.sourav.weatherbd.repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.sourav.weatherbd.Interfaces.WeatherDao;
 import com.sourav.weatherbd.Models.Structures.SimplifiedWeatherModel;
-import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.Models.WeatherDB;
 
 public class WeatherRepositoryDB {
