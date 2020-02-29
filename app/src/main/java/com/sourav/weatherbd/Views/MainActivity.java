@@ -1,6 +1,5 @@
-package com.sourav.weatherbd.Activities;
+package com.sourav.weatherbd.Views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,31 +7,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-import com.sourav.weatherbd.Models.Data;
-import com.sourav.weatherbd.Models.Weather;
+import com.sourav.weatherbd.Models.Structures.Data;
+import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.Interfaces.OpenWeatherAPI;
+import com.sourav.weatherbd.Models.WeatherSource;
 import com.sourav.weatherbd.R;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
     private  String city;
     private String unit;
     private final String countryCode = "bd";
-    private final String api = "6ef31b54f38ce5a3e5496e7ae5c7654f";
     private final String filename = "weatherData";
     private Gson gson;
+    LiveData<Data> weatherLiveData;
+    WeatherViewModel weatherViewModel;
 
     //Menu Bullshits start
     @Override
@@ -82,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeViews();
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        getSettings();
-        gson = new Gson();
+        //getSettings();
+        //currentConfig();
+       /* gson = new Gson();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -96,15 +90,25 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-
-        //Map <String[], String> params = new HashMap<>();
-        String location = city+","+countryCode;
-        //params.put("q", location);
-        //params.put("appid", "6ef31b54f38ce5a3e5496e7ae5c7654f");
-        openWeatherAPI = retrofit.create(OpenWeatherAPI.class);
-        getWeather(location);
+        openWeatherAPI = retrofit.create(OpenWeatherAPI.class);*/
+        weatherViewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
+                .get(WeatherViewModel.class);
+        weatherLiveData = weatherViewModel.getDataFromServer();
+        weatherLiveData.observe(this, data -> {
+            Log.d(TAG, "onChanged: RUN");
+            populate(data);
+        });
+        //getWeather(location);
     }
 
+    /*private void currentConfig() {
+        String location = city+","+countryCode;
+        weatherViewModel.setLocation(location);
+        weatherViewModel.setApi(api);
+        weatherViewModel.setUnit(unit);
+    }*/
+/*
 
 
     private void getSettings() {
@@ -183,41 +187,52 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return stringBuilder.toString();
-    }
+    }*/
 
 
     private void populate(Data data) {
-        String degreeUnit = "C";
-        String pressureUnit = "Pa";
-        String humidUnit = "%";
-        if (unit.equals("imperial")){
-            degreeUnit = "F";
-            pressureUnit = "PSI";
+        if (data != null){
+            String unit = weatherViewModel.getUnit();
+            String degreeUnit = "C";
+            String pressureUnit = "Pa";
+            String humidUnit = "%";
+            if (unit.equals("imperial")){
+                degreeUnit = "F";
+                pressureUnit = "PSI";
+            }
+            String tempValue =String.valueOf((int)data.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
+            String maxTempValue =String.valueOf((int)data.getMain().getMax()) + (char) 0x00B0 + degreeUnit;
+            String minTempValue =String.valueOf((int)data.getMain().getMin()) + (char) 0x00B0 + degreeUnit;
+            String humidValue = (data.getMain().getHumidity())+ " " + humidUnit;
+            String pressureValue = (data.getMain().getPressure())+ " " + pressureUnit;
+
+
+            String loc = data.getName();
+            Weather weii = data.getWeather().get(0);
+            String cond = weii.getMain();
+
+            Log.d(TAG, "populate: Temp: "+tempValue);
+            Log.d(TAG, "populate: Humid: "+humidValue);
+            Log.d(TAG, "populate: pressure: "+pressureValue);
+            Log.d(TAG, "populate: location: "+loc);
+            Log.d(TAG, "populate: Condition: "+cond);
+
+            try {
+                location.setText(loc);
+                temp.setText(tempValue);
+                humid.setText(humidValue);
+                pressure.setText(pressureValue);
+                location.setText(loc);
+                condition.setText(cond);
+                max.setText(maxTempValue);
+                min.setText(minTempValue);
+
+            }catch (NullPointerException e){
+                Toast.makeText(this,"Received NULL OBJECT",Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Log.d(TAG, "populate: Data STILL NULL");
         }
-        String tempValue =String.valueOf((int)data.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
-        String maxTempValue =String.valueOf((int)data.getMain().getMax()) + (char) 0x00B0 + degreeUnit;
-        String minTempValue =String.valueOf((int)data.getMain().getMin()) + (char) 0x00B0 + degreeUnit;
-        String humidValue = (data.getMain().getHumidity())+ " " + humidUnit;
-        String pressureValue = (data.getMain().getPressure())+ " " + pressureUnit;
-        String loc = data.getName();
-        Weather weii = data.getWeather().get(0);
-        String cond = weii.getMain();
-
-        Log.d(TAG, "populate: Temp: "+tempValue);
-        Log.d(TAG, "populate: Humid: "+humidValue);
-        Log.d(TAG, "populate: pressure: "+pressureValue);
-        Log.d(TAG, "populate: location: "+loc);
-        Log.d(TAG, "populate: Condition: "+cond);
-
-        location.setText(loc);
-        temp.setText(tempValue);
-        humid.setText(humidValue);
-        pressure.setText(pressureValue);
-        location.setText(loc);
-        condition.setText(cond);
-        max.setText(maxTempValue);
-        min.setText(minTempValue);
-
     }
 
     private void initializeViews() {
@@ -233,5 +248,10 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = "{\"coord\":{\"lon\":-122.08,\"lat\":37.39},\"weather\":[{\"id\":800,\"main\":\"Clear\",\"description\":\"clear sky\",\"icon\":\"01d\"}],\"base\":\"stations\",\"main\":{\"temp\":282.55,\"feels_like\":281.86,\"temp_min\":280.37,\"temp_max\":284.26,\"pressure\":1023,\"humidity\":100},\"visibility\":16093,\"wind\":{\"speed\":1.5,\"deg\":350},\"clouds\":{\"all\":1},\"dt\":1560350645,\"sys\":{\"type\":1,\"id\":5122,\"message\":0.0139,\"country\":\"US\",\"sunrise\":1560343627,\"sunset\":1560396563},\"timezone\":-25200,\"id\":420006353,\"name\":\"Mountain View\",\"cod\":200}";
         return gson.fromJson(json, Data.class);
+    }
+
+    public void onclickxfab(View view) {
+        //currentConfig();
+        weatherViewModel.fetchWeather();
     }
 }

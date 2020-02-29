@@ -1,6 +1,6 @@
 package com.sourav.weatherbd.Interfaces;
 
-import com.sourav.weatherbd.Models.Data;
+import com.sourav.weatherbd.Models.Structures.Data;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
