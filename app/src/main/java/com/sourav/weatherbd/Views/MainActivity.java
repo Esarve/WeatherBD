@@ -14,14 +14,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.sourav.weatherbd.Models.Structures.Data;
 import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.R;
 import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
+
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView max;
     private TextView min;
     private StatusNavBarColorHandler statusNavBarColorHandler;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +101,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (NullPointerException e) {
                 Toast.makeText(this, "Received NULL OBJECT", Toast.LENGTH_LONG).show();
             }
+            showSnackBar("Loaded Weather Successfully for "+ loc);
         } else {
             Log.d(TAG, "populate: Data STILL NULL");
         }
+
     }
 
     private void initializeViews() {
@@ -108,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         condition = findViewById(R.id.tvCondition);
         max = findViewById(R.id.tvMax);
         min = findViewById(R.id.tvMin);
+        coordinatorLayout = findViewById(R.id.parentLayout);
     }
 
     public void setLightStatusNavBar(View view, Activity activity){
@@ -132,5 +141,11 @@ public class MainActivity extends AppCompatActivity {
     public void openSettingsActivity(View view) {
         startActivity(new Intent(this, SettingsActivity.class));
     }
-    // Menu Bullshit Ends
+
+    private void showSnackBar(String message){
+        Snackbar snackbar = Snackbar.make(
+                coordinatorLayout, message, BaseTransientBottomBar.LENGTH_LONG);
+        snackbar.show();
+    }
+
 }
