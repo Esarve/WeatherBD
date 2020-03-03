@@ -35,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView condition;
     private TextView max;
     private TextView min;
+    private StatusNavBarColorHandler statusNavBarColorHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setLightStatusNavBar(getWindow().getDecorView(),this);
+        statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
+        statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(),this);;
         initializeViews();
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
@@ -127,24 +129,8 @@ public class MainActivity extends AppCompatActivity {
         weatherViewModel.fetchWeather();
     }
 
-    //Menu Bullshits start
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-            case R.id.about:
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void openSettingsActivity(View view) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
     // Menu Bullshit Ends
 }

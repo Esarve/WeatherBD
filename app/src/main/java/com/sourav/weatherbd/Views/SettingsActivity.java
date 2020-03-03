@@ -9,7 +9,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.sourav.weatherbd.R;
 
 public class SettingsActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +21,8 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        StatusNavBarColorHandler statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
+        statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(),this);;
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
