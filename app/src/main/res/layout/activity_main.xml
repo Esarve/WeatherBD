@@ -10,155 +10,226 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="32dp"
-        android:paddingTop="100dp"
-        android:paddingEnd="20dp">
+        android:paddingStart="24dp"
+        android:paddingTop="70dp"
+        android:paddingEnd="24dp">
+
         <!--For Weather and location-->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Weather"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvTemp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/layout_val_null"
-                android:textAlignment="textStart"
-                android:textSize="72sp" />
-
-            <TextView
-                android:id="@+id/tvCondition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="No Data Found"
-                android:textAlignment="textStart"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <!--For other Stats-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/mainLayout"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:baselineAligned="false">
-
-            <!--Titles-->
+            app:cardBackgroundColor="@color/light_blue_500"
+            app:contentPaddingTop="20dp"
+            app:contentPaddingBottom="20dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="0.5">
+                android:layout_marginTop="@dimen/card_dime_top"
+                android:layout_marginStart="@dimen/card_dime_start"
+                android:layout_marginBottom="@dimen/card_dime_bottom">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="39dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/layout_title_humidity"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:text="Weather"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/grey_5"/>
 
                 <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/layout_title_pressure"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/layout_title_max_temp"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="28dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/layout_title_min_temp"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!--Values-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.5">
-
-                <TextView
-                    android:id="@+id/tvHumid"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvTemp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:text="@string/layout_val_null"
                     android:textAlignment="textStart"
-                    android:textSize="18sp" />
+                    android:textSize="72sp"
+                    android:textColor="@color/grey_3"/>
+
+                <TextView
+                    android:id="@+id/tvCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="No Data Found"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp"
+                    android:textColor="@color/grey_5"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!--For other Stats-->
+        <!--for humidity-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardHumid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainLayout"
+            app:cardBackgroundColor="@color/grey_10"
+            app:contentPaddingTop="10dp"
+            app:contentPaddingBottom="10dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/card_dime_top"
+                android:layout_marginStart="@dimen/card_dime_start"
+                android:layout_marginBottom="@dimen/card_dime_bottom"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:text="@string/layout_title_humidity"
+                    android:textSize="@dimen/text_size_title_stats"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"/>
+                <TextView
+                    android:id="@+id/tvHumid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/layout_val_null"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp"
+                    android:layout_weight="0.35"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!--for Pressure-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardHumid"
+            app:cardBackgroundColor="@color/grey_10"
+            app:contentPaddingTop="10dp"
+            app:contentPaddingBottom="10dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/card_dime_top"
+                android:layout_marginStart="@dimen/card_dime_start"
+                android:layout_marginBottom="@dimen/card_dime_bottom"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:text="@string/layout_title_pressure"
+                    android:textSize="@dimen/text_size_title_stats"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"/>
 
                 <TextView
                     android:id="@+id/tvPress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/layout_val_null"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp"
+                    android:layout_weight="0.35"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!--for Max Temp-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardPressure"
+            app:cardBackgroundColor="@color/grey_10"
+            app:contentPaddingTop="10dp"
+            app:contentPaddingBottom="10dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/card_dime_top"
+                android:layout_marginStart="@dimen/card_dime_start"
+                android:layout_marginBottom="@dimen/card_dime_bottom"
+                android:weightSum="1">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/layout_val_null"
-                    android:textAlignment="textStart"
-                    android:textSize="18sp" />
-
+                    android:layout_gravity="center|start"
+                    android:text="@string/layout_title_max_temp"
+                    android:textSize="@dimen/text_size_title_stats"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"/>
                 <TextView
                     android:id="@+id/tvMax"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/layout_val_null"
+                    android:textAlignment="inherit"
+                    android:textSize="18sp"
+                    android:layout_weight="0.35"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!--for Min Temp-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardMax"
+            app:cardBackgroundColor="@color/grey_10"
+            app:contentPaddingTop="10dp"
+            app:contentPaddingBottom="10dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/card_dime_top"
+                android:layout_marginStart="@dimen/card_dime_start"
+                android:layout_marginBottom="@dimen/card_dime_bottom"
+                android:weightSum="1">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/layout_val_null"
-                    android:textAlignment="textStart"
-                    android:textSize="18sp" />
-
+                    android:layout_gravity="center|start"
+                    android:text="@string/layout_title_min_temp"
+                    android:textSize="@dimen/text_size_title_stats"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"/>
                 <TextView
                     android:id="@+id/tvMin"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
                     android:text="@string/layout_val_null"
-                    android:textAlignment="textStart"
-                    android:textSize="18sp" />
+                    android:textAlignment="inherit"
+                    android:textSize="18sp"
+                    android:layout_weight="0.35"/>
             </LinearLayout>
-
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
 
