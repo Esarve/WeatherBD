@@ -1,6 +1,8 @@
 package com.sourav.weatherbd.Views;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,10 +14,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.gson.Gson;
 import com.sourav.weatherbd.Models.Structures.Data;
 import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.R;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setLightStatusNavBar(getWindow().getDecorView(),this);
         initializeViews();
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
@@ -103,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
         condition = findViewById(R.id.tvCondition);
         max = findViewById(R.id.tvMax);
         min = findViewById(R.id.tvMin);
+    }
+
+    public void setLightStatusNavBar(View view, Activity activity){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.grey_3));
+
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.grey_3));
+        }
     }
 
     //Extended Floating Action Button Click method

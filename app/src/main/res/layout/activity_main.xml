@@ -19,9 +19,10 @@
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             app:cardBackgroundColor="@color/light_blue_500"
-            app:contentPaddingTop="20dp"
-            app:contentPaddingBottom="20dp"
+            app:contentPaddingTop="24dp"
+            app:contentPaddingBottom="24dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
@@ -49,7 +50,7 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/layout_val_null"
                     android:textAlignment="textStart"
-                    android:textSize="72sp"
+                    android:textSize="80sp"
                     android:textColor="@color/grey_3"/>
 
                 <TextView
