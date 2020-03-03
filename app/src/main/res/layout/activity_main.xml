@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    tools:context=".Views.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -244,6 +244,7 @@
         android:text="@string/layout_title_refresh"
         android:textAlignment="center"
         android:textColor="@android:color/white"
+        android:onClick="onclickxfab"
         tools:ignore="RtlCompat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

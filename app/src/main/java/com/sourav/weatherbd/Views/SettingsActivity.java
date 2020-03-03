@@ -1,4 +1,4 @@
-package com.sourav.weatherbd.Activities;
+package com.sourav.weatherbd.Views;
 
 import android.os.Bundle;
 

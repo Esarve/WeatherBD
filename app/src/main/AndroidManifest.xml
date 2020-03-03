@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.SettingsActivity"
+            android:name=".Views.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

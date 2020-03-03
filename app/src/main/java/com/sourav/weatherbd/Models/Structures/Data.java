@@ -1,4 +1,4 @@
-package com.sourav.weatherbd.Models;
+package com.sourav.weatherbd.Models.Structures;
 
 import java.util.List;
 
