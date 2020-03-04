@@ -1,4 +1,4 @@
-package com.sourav.weatherbd.Views;
+package com.sourav.weatherbd.Handlers;
 
 import android.app.Activity;
 import android.os.Build;
@@ -8,16 +8,16 @@ import androidx.core.content.ContextCompat;
 
 import com.sourav.weatherbd.R;
 
-class StatusNavBarColorHandler {
+public class StatusNavBarColorHandler {
     private static StatusNavBarColorHandler instance;
 
-    static StatusNavBarColorHandler getInstance(){
+    public static StatusNavBarColorHandler getInstance(){
         if (instance == null)
             instance = new StatusNavBarColorHandler();
         return instance;
     }
 
-    void setLightStatusNavBar(View view, Activity activity){
+    public void setLightStatusNavBar(View view, Activity activity){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
