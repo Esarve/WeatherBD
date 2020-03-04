@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.sourav.weatherbd.Handlers.SettingsManager;
 import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
-import com.sourav.weatherbd.Models.Structures.Data;
+import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.R;
 import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
@@ -26,15 +26,15 @@ import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "Weather Log";
-    private LiveData<Data> weatherLiveData;
+    private LiveData<WeatherObjectForJson> weatherLiveData;
     private WeatherViewModel weatherViewModel;
     private TextView location;
     private TextView temp;
     private TextView humid;
     private TextView pressure;
     private TextView condition;
-    private TextView max;
-    private TextView min;
+    private TextView visibility;
+    private TextView windSpeed;
     private ImageView settingsIcon;
     private StatusNavBarColorHandler statusNavBarColorHandler;
     private CoordinatorLayout coordinatorLayout;
@@ -51,16 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(WeatherViewModel.class);
         weatherLiveData = weatherViewModel.getDataFromServer();
-        weatherLiveData.observe(this, data -> {
+        weatherLiveData.observe(this, weatherObjectForJson -> {
             Log.d(TAG, "onChanged: RUN");
-            populate(data);
+            populate(weatherObjectForJson);
         });
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        setThemeConfigs();
     }
 
     // Set Dark Mode & Other color stuffs
@@ -81,25 +75,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Populate Views
-    private void populate(Data data) {
-        if (data != null) {
+    private void populate(WeatherObjectForJson weatherObjectForJson) {
+        if (weatherObjectForJson != null) {
             String unit = weatherViewModel.getUnit();
             String degreeUnit = "C";
+            String unitSpeed = "Km/h";
+            String unitVisi = "Meters";
             String pressureUnit = "Pa";
             String humidUnit = "%";
             if (unit.equals("imperial")) {
                 degreeUnit = "F";
                 pressureUnit = "PSI";
             }
-            String tempValue = String.valueOf((int) data.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
-            String maxTempValue = String.valueOf((int) data.getMain().getMax()) + (char) 0x00B0 + degreeUnit;
-            String minTempValue = String.valueOf((int) data.getMain().getMin()) + (char) 0x00B0 + degreeUnit;
-            String humidValue = (data.getMain().getHumidity()) + " " + humidUnit;
-            String pressureValue = (data.getMain().getPressure()) + " " + pressureUnit;
+            String tempValue = String.valueOf((int) weatherObjectForJson.getMain().getTemp()) + (char) 0x00B0 + degreeUnit;
+            String visibilityVal = weatherObjectForJson.getVisibility() + unitVisi;
+            String windSpeedVal =weatherObjectForJson.getWind().getSpeed() + unitSpeed;
+            String humidValue = (weatherObjectForJson.getMain().getHumidity()) + " " + humidUnit;
+            String pressureValue = (weatherObjectForJson.getMain().getPressure()) + " " + pressureUnit;
 
 
-            String loc = data.getName();
-            Weather weii = data.getWeather().get(0);
+            String loc = weatherObjectForJson.getName();
+            Weather weii = weatherObjectForJson.getWeather().get(0);
             String cond = weii.getMain();
 
             Log.d(TAG, "populate: Temp: " + tempValue);
@@ -115,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 pressure.setText(pressureValue);
                 location.setText(loc);
                 condition.setText(cond);
-                max.setText(maxTempValue);
-                min.setText(minTempValue);
+                visibility.setText(visibilityVal);
+                windSpeed.setText(windSpeedVal);
 
             } catch (NullPointerException e) {
                 Toast.makeText(this, "Received NULL OBJECT", Toast.LENGTH_LONG).show();
@@ -134,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
         humid = findViewById(R.id.tvHumid);
         pressure = findViewById(R.id.tvPress);
         condition = findViewById(R.id.tvCondition);
-        max = findViewById(R.id.tvMax);
-        min = findViewById(R.id.tvMin);
+        visibility = findViewById(R.id.tvVisibility);
+        windSpeed = findViewById(R.id.tvWindSpeed);
         coordinatorLayout = findViewById(R.id.parentLayout);
         settingsIcon = findViewById(R.id.settingsIcon);
     }
@@ -156,4 +152,9 @@ public class MainActivity extends AppCompatActivity {
         snackbar.show();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setThemeConfigs();
+    }
 }

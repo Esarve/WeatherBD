@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
-import com.sourav.weatherbd.Models.Structures.Data;
+import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.Models.Structures.SimplifiedWeatherModel;
 import com.sourav.weatherbd.Models.WeatherSource;
 import com.sourav.weatherbd.repositories.WeatherRepositoryDB;
@@ -21,7 +21,7 @@ public class WeatherViewModel extends AndroidViewModel {
     private String location, unit;
     private WeatherSource weatherSource;
     private SharedPreferences sharedPreferences;
-    private MutableLiveData<Data> mLiveData;
+    private MutableLiveData<WeatherObjectForJson> mLiveData;
 
     public WeatherViewModel(Application application) {
         super(application);
@@ -34,7 +34,7 @@ public class WeatherViewModel extends AndroidViewModel {
         weatherSource = WeatherSource.getInstance();
     }
 
-    public MutableLiveData<Data> getDataFromServer(){
+    public MutableLiveData<WeatherObjectForJson> getDataFromServer(){
         Log.d(TAG, "getDataFromServer: Called");
         if (mLiveData == null){
             mLiveData = new MutableLiveData<>();

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Views.MainActivity"
+    android:background="@color/background"
     android:id="@+id/parentLayout">
 
     <RelativeLayout
@@ -120,7 +121,7 @@
                 android:layout_marginBottom="@dimen/card_dime_bottom"
                 android:weightSum="1">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
                     android:text="@string/layout_title_humidity"
@@ -161,7 +162,7 @@
                 android:layout_marginBottom="@dimen/card_dime_bottom"
                 android:weightSum="1">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
                     android:text="@string/layout_title_pressure"
@@ -203,15 +204,15 @@
                 android:layout_marginBottom="@dimen/card_dime_bottom"
                 android:weightSum="1">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
-                    android:text="@string/layout_title_max_temp"
+                    android:text="@string/layout_title_visi"
                     android:textSize="@dimen/text_size_title_stats"
                     android:textStyle="bold"
                     android:layout_weight="0.65"/>
                 <TextView
-                    android:id="@+id/tvMax"
+                    android:id="@+id/tvVisibility"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -244,15 +245,15 @@
                 android:layout_marginBottom="@dimen/card_dime_bottom"
                 android:weightSum="1">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
-                    android:text="@string/layout_title_min_temp"
+                    android:text="@string/layout_title_winspeed"
                     android:textSize="@dimen/text_size_title_stats"
                     android:textStyle="bold"
                     android:layout_weight="0.65"/>
                 <TextView
-                    android:id="@+id/tvMin"
+                    android:id="@+id/tvWindSpeed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
