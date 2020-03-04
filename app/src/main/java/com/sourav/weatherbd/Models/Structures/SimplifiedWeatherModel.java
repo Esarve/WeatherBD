@@ -1,27 +1,22 @@
 package com.sourav.weatherbd.Models.Structures;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "weather")
 public class SimplifiedWeatherModel {
-    @PrimaryKey(autoGenerate = true)
     private int id;
     private String city;
     private double temp;
     private double humidity;
     private double pressure;
-    private double max;
-    private double min;
+    private double visibility;
+    private double windSpeed;
     private String datetime;
 
-    public SimplifiedWeatherModel(String city, double temp, double humidity, double pressure, double max, double min, String datetime) {
+    public SimplifiedWeatherModel(String city, double temp, double humidity, double pressure, double visibility, double windSpeed, String datetime) {
         this.city = city;
         this.temp = temp;
         this.humidity = humidity;
         this.pressure = pressure;
-        this.max = max;
-        this.min = min;
+        this.visibility = visibility;
+        this.windSpeed = windSpeed;
         this.datetime = datetime;
     }
 
@@ -45,12 +40,12 @@ public class SimplifiedWeatherModel {
         this.pressure = pressure;
     }
 
-    public void setMax(double max) {
-        this.max = max;
+    public void setVisibility(double visibility) {
+        this.visibility = visibility;
     }
 
-    public void setMin(double min) {
-        this.min = min;
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
     }
 
     public void setDatetime(String datetime) {
@@ -73,12 +68,12 @@ public class SimplifiedWeatherModel {
         return pressure;
     }
 
-    public double getMax() {
-        return max;
+    public double getVisibility() {
+        return visibility;
     }
 
-    public double getMin() {
-        return min;
+    public double getWindSpeed() {
+        return windSpeed;
     }
 
     public String getDatetime() {

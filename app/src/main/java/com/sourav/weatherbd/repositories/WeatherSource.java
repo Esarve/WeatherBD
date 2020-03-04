@@ -1,4 +1,4 @@
-package com.sourav.weatherbd.Models;
+package com.sourav.weatherbd.repositories;
 
 import android.util.Log;
 
@@ -24,7 +24,7 @@ public class WeatherSource {
     private final String api = "6ef31b54f38ce5a3e5496e7ae5c7654f";
     private static WeatherSource instance;
 
-    //Singliton
+    //Singleton
     public static WeatherSource getInstance(){
         if (instance == null)
             instance = new WeatherSource();
