@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.sourav.weatherbd.Handlers.SettingsManager;
+import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
 import com.sourav.weatherbd.R;
 
 public class SettingsActivity extends AppCompatActivity {

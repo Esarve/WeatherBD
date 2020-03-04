@@ -1,8 +1,6 @@
 package com.sourav.weatherbd.Views;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,12 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.sourav.weatherbd.Handlers.SettingsManager;
+import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
 import com.sourav.weatherbd.Models.Structures.Data;
 import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.R;
