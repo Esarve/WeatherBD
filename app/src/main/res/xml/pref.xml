@@ -21,4 +21,11 @@
             android:title="@string/unit_title"
             android:summary="Select if you want to use celsius of fahrenheit"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="Themes">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="Dark Mode"
+            android:key="darkmode"
+            android:summary="Switch to Dak Mode"/>
+    </PreferenceCategory>
 </PreferenceScreen>

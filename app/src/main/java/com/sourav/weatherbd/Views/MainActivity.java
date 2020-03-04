@@ -1,21 +1,24 @@
 package com.sourav.weatherbd.Views;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.gson.Gson;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.sourav.weatherbd.Models.Structures.Data;
 import com.sourav.weatherbd.Models.Structures.Weather;
 import com.sourav.weatherbd.R;
@@ -33,12 +36,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView condition;
     private TextView max;
     private TextView min;
+    private ImageView settingsIcon;
+    private StatusNavBarColorHandler statusNavBarColorHandler;
+    private CoordinatorLayout coordinatorLayout;
+    private SettingsManager settingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settingsManager = new SettingsManager(this);
         initializeViews();
+        setThemeConfigs();
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(WeatherViewModel.class);
@@ -47,9 +56,32 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onChanged: RUN");
             populate(data);
         });
-        //getWeather(location);
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        setThemeConfigs();
+    }
+
+    // Set Dark Mode & Other color stuffs
+    private void setThemeConfigs() {
+        boolean darkMode = settingsManager.getDarkMode();
+
+        if (darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            settingsIcon.setImageResource(R.drawable.ic_settings_white_24dp);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            settingsIcon.setImageResource(R.drawable.ic_settings_black_24dp);
+            statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
+            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this);
+        }
+
+    }
+
+    // Populate Views
     private void populate(Data data) {
         if (data != null) {
             String unit = weatherViewModel.getUnit();
@@ -90,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (NullPointerException e) {
                 Toast.makeText(this, "Received NULL OBJECT", Toast.LENGTH_LONG).show();
             }
+            showSnackBar("Loaded Weather Successfully for "+ loc);
         } else {
             Log.d(TAG, "populate: Data STILL NULL");
         }
+
     }
 
     private void initializeViews() {
@@ -103,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         condition = findViewById(R.id.tvCondition);
         max = findViewById(R.id.tvMax);
         min = findViewById(R.id.tvMin);
+        coordinatorLayout = findViewById(R.id.parentLayout);
+        settingsIcon = findViewById(R.id.settingsIcon);
     }
 
     //Extended Floating Action Button Click method
@@ -111,24 +147,14 @@ public class MainActivity extends AppCompatActivity {
         weatherViewModel.fetchWeather();
     }
 
-    //Menu Bullshits start
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-        return true;
+    public void openSettingsActivity(View view) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-            case R.id.about:
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void showSnackBar(String message){
+        Snackbar snackbar = Snackbar.make(
+                coordinatorLayout, message, BaseTransientBottomBar.LENGTH_LONG);
+        snackbar.show();
     }
-    // Menu Bullshit Ends
+
 }

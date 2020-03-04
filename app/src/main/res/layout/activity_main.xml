@@ -1,27 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/MyMaterialTheme"
+    android:theme="@style/AppThemeLight"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.MainActivity">
+    tools:context=".Views.MainActivity"
+    android:id="@+id/parentLayout">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingTop="70dp"
-        android:paddingEnd="24dp">
+        android:paddingStart="16dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="16dp">
+
+        <RelativeLayout
+            android:id="@+id/AppBarClone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/app_name"
+                android:textColor="@color/colorFontTitle"
+                android:textSize="36sp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/settingsIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/layout_val_description"
+                android:src="@drawable/ic_settings_black_24dp"
+                android:onClick="openSettingsActivity"/>
+        </RelativeLayout>
 
         <!--For Weather and location-->
         <androidx.cardview.widget.CardView
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/light_blue_500"
-            app:contentPaddingTop="20dp"
-            app:contentPaddingBottom="20dp"
+            android:layout_below="@+id/AppBarClone"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:contentPaddingTop="24dp"
+            app:contentPaddingBottom="24dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="2dp"
             app:cardUseCompatPadding="true">
@@ -40,7 +72,7 @@
                     android:text="Weather"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    android:textColor="@color/grey_5"/>
+                    android:textColor="@color/colorFontMain"/>
 
                 <TextView
                     android:id="@+id/tvTemp"
@@ -49,8 +81,8 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/layout_val_null"
                     android:textAlignment="textStart"
-                    android:textSize="72sp"
-                    android:textColor="@color/grey_3"/>
+                    android:textSize="80sp"
+                    android:textColor="@color/colorFontMain"/>
 
                 <TextView
                     android:id="@+id/tvCondition"
@@ -60,7 +92,7 @@
                     android:text="No Data Found"
                     android:textAlignment="textStart"
                     android:textSize="18sp"
-                    android:textColor="@color/grey_5"/>
+                    android:textColor="@color/colorFontMain"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -72,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mainLayout"
-            app:cardBackgroundColor="@color/grey_10"
+            app:cardBackgroundColor="@color/colorOtherCard"
             app:contentPaddingTop="10dp"
             app:contentPaddingBottom="10dp"
             app:cardCornerRadius="6dp"
@@ -113,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cardHumid"
-            app:cardBackgroundColor="@color/grey_10"
+            app:cardBackgroundColor="@color/colorOtherCard"
             app:contentPaddingTop="10dp"
             app:contentPaddingBottom="10dp"
             app:cardCornerRadius="6dp"
@@ -155,7 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cardPressure"
-            app:cardBackgroundColor="@color/grey_10"
+            app:cardBackgroundColor="@color/colorOtherCard"
             app:contentPaddingTop="10dp"
             app:contentPaddingBottom="10dp"
             app:cardCornerRadius="6dp"
@@ -196,7 +228,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cardMax"
-            app:cardBackgroundColor="@color/grey_10"
+            app:cardBackgroundColor="@color/colorOtherCard"
             app:contentPaddingTop="10dp"
             app:contentPaddingBottom="10dp"
             app:cardCornerRadius="6dp"
@@ -240,7 +272,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/color_fab"
+        android:backgroundTint="@color/colorAccent"
         android:text="@string/layout_title_refresh"
         android:textAlignment="center"
         android:textColor="@android:color/white"
