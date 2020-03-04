@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
         if (weatherObjectForJson != null) {
             String unit = weatherViewModel.getUnit();
             String degreeUnit = "C";
-            String unitSpeed = "Km/h";
-            String unitVisi = "Meters";
-            String pressureUnit = "Pa";
+            String unitSpeed = " Km/h";
+            String unitVisi = " Meters";
+            String pressureUnit = " Pa";
             String humidUnit = "%";
             if (unit.equals("imperial")) {
                 degreeUnit = "F";
