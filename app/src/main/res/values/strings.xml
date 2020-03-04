@@ -26,8 +26,8 @@
     <string name="layout_val_null">null</string>
     <string name="layout_title_humidity">Humidity</string>
     <string name="layout_title_pressure">Pressure</string>
-    <string name="layout_title_max_temp">Max Temp</string>
-    <string name="layout_title_min_temp">Min Temp</string>
+    <string name="layout_title_visi">Visibility</string>
+    <string name="layout_title_winspeed">Wind Speed</string>
     <string name="layout_title_refresh">Refresh</string>
     <string name="layout_val_description">Settings Icon</string>
 </resources>

@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sourav.weatherbd.Interfaces.OpenWeatherAPI;
-import com.sourav.weatherbd.Models.Structures.Data;
+import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WeatherSource {
 
     private static final String TAG = "WeatherSource CLASS";
-    private MutableLiveData<Data> received;
+    private MutableLiveData<WeatherObjectForJson> received;
     private final String api = "6ef31b54f38ce5a3e5496e7ae5c7654f";
     private static WeatherSource instance;
 
@@ -59,12 +59,12 @@ public class WeatherSource {
 
         //END
 
-        Call<Data> call = openWeatherAPI.getWeatherData(location,api,unit);
+        Call<WeatherObjectForJson> call = openWeatherAPI.getWeatherData(location,api,unit);
 
         // START CALLBACK
-        call.enqueue(new Callback<Data>() {
+        call.enqueue(new Callback<WeatherObjectForJson>() {
             @Override
-            public void onResponse(@NotNull Call<Data> call, @NotNull Response<Data> response) {
+            public void onResponse(@NotNull Call<WeatherObjectForJson> call, @NotNull Response<WeatherObjectForJson> response) {
                 if (response.isSuccessful()){
                     Log.d(TAG, "onResponse: Response Successful");
                     Log.d(TAG, "onResponse: Status "+ response.code());
@@ -77,14 +77,15 @@ public class WeatherSource {
                 }
             }
             @Override
-            public void onFailure(@NotNull Call<Data> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<WeatherObjectForJson> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure: FAILED TO GET DATA");
+                Log.e(TAG, "onFailure: ",t );
             }
         });
 
     }
 
-    public MutableLiveData<Data> getReceived() {
+    public MutableLiveData<WeatherObjectForJson> getReceived() {
         return received;
     }
 }
