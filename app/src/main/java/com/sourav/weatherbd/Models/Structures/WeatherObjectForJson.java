@@ -1,18 +1,23 @@
 
 package com.sourav.weatherbd.Models.Structures;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WeatherObjectForJson {
+import java.util.List;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class WeatherObjectForJson extends RealmObject {
 
     @SerializedName("coord")
     @Expose
     private Coord coord;
     @SerializedName("weather")
     @Expose
-    private List<Weather> weather = null;
+    private RealmList<Weather> weather = null;
     @SerializedName("base")
     @Expose
     private String base;
@@ -39,6 +44,7 @@ public class WeatherObjectForJson {
     private Integer timezone;
     @SerializedName("id")
     @Expose
+    @PrimaryKey
     private Integer id;
     @SerializedName("name")
     @Expose
@@ -59,7 +65,7 @@ public class WeatherObjectForJson {
         return weather;
     }
 
-    public void setWeather(List<Weather> weather) {
+    public void setWeather(RealmList<Weather> weather) {
         this.weather = weather;
     }
 

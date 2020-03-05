@@ -1,4 +1,4 @@
-package com.sourav.weatherbd.Models;
+package com.sourav.weatherbd.repositories;
 
 import android.util.Log;
 
@@ -24,7 +24,7 @@ public class WeatherSource {
     private final String api = "6ef31b54f38ce5a3e5496e7ae5c7654f";
     private static WeatherSource instance;
 
-    //Singliton
+    //Singleton
     public static WeatherSource getInstance(){
         if (instance == null)
             instance = new WeatherSource();
@@ -38,6 +38,8 @@ public class WeatherSource {
         Log.d(TAG, "fetchWeather: Received Units: "+unit);
 
         //Initialization
+        RealmCache realmCache = new RealmCache();
+        realmCache.initReal();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -71,6 +73,7 @@ public class WeatherSource {
 
                     if (response.body()!= null){
                         received.setValue(response.body());
+                        realmCache.cacheToRealm(response.body());
                         Log.d(TAG, "onResponse: Data Received!");
                     }else
                         Log.d(TAG, "onResponse: NULL data received");
@@ -80,6 +83,7 @@ public class WeatherSource {
             public void onFailure(@NotNull Call<WeatherObjectForJson> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure: FAILED TO GET DATA");
                 Log.e(TAG, "onFailure: ",t );
+                received.setValue(realmCache.getData());
             }
         });
 

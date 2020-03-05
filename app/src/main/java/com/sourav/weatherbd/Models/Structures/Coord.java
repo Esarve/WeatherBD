@@ -4,7 +4,9 @@ package com.sourav.weatherbd.Models.Structures;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coord {
+import io.realm.RealmObject;
+
+public class Coord extends RealmObject {
 
     @SerializedName("lon")
     @Expose

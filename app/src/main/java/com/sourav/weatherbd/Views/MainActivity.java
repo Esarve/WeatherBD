@@ -1,6 +1,9 @@
 package com.sourav.weatherbd.Views;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,14 +17,16 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.sourav.weatherbd.Handlers.SettingsManager;
 import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
-import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.Models.Structures.Weather;
+import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.R;
 import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
+
+import io.realm.Realm;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Realm.init(this);
+
         settingsManager = new SettingsManager(this);
         initializeViews();
         setThemeConfigs();
+
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(WeatherViewModel.class);
@@ -79,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
         if (weatherObjectForJson != null) {
             String unit = weatherViewModel.getUnit();
             String degreeUnit = "C";
-            String unitSpeed = "Km/h";
-            String unitVisi = "Meters";
-            String pressureUnit = "Pa";
+            String unitSpeed = " Km/h";
+            String unitVisi = " Meters";
+            String pressureUnit = " Pa";
             String humidUnit = "%";
             if (unit.equals("imperial")) {
                 degreeUnit = "F";
@@ -117,8 +126,13 @@ public class MainActivity extends AppCompatActivity {
             } catch (NullPointerException e) {
                 Toast.makeText(this, "Received NULL OBJECT", Toast.LENGTH_LONG).show();
             }
-            showSnackBar("Loaded Weather Successfully for "+ loc);
+
+            if (isConnected())
+                showSnackBar("Loaded Weather Successfully for " + loc, -1);
+            else
+                showSnackBar("No Connection, Using previous cached data for " + loc, 0);
         } else {
+
             Log.d(TAG, "populate: Data STILL NULL");
         }
 
@@ -142,15 +156,29 @@ public class MainActivity extends AppCompatActivity {
         weatherViewModel.fetchWeather();
     }
 
+    // Open settings activity from image view button click
     public void openSettingsActivity(View view) {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    private void showSnackBar(String message){
+    // Snackbar stuffs
+    private void showSnackBar(String message, int duration) {
         Snackbar snackbar = Snackbar.make(
-                coordinatorLayout, message, BaseTransientBottomBar.LENGTH_LONG);
+                coordinatorLayout, message, duration);
         snackbar.show();
     }
+
+    @SuppressWarnings("deprecation")
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        assert cm != null;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
 
     @Override
     protected void onResume() {
