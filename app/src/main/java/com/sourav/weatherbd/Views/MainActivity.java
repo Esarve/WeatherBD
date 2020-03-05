@@ -18,10 +18,12 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.sourav.weatherbd.Handlers.SettingsManager;
 import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
-import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.Models.Structures.Weather;
+import com.sourav.weatherbd.Models.Structures.WeatherObjectForJson;
 import com.sourav.weatherbd.R;
 import com.sourav.weatherbd.Viewmodel.WeatherViewModel;
+
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Realm.init(this);
+
         settingsManager = new SettingsManager(this);
         initializeViews();
         setThemeConfigs();
+
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(WeatherViewModel.class);
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             }
             showSnackBar("Loaded Weather Successfully for "+ loc);
         } else {
+
             Log.d(TAG, "populate: Data STILL NULL");
         }
 

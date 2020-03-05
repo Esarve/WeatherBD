@@ -4,7 +4,9 @@ package com.sourav.weatherbd.Models.Structures;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Clouds {
+import io.realm.RealmObject;
+
+public class Clouds extends RealmObject {
 
     @SerializedName("all")
     @Expose
