@@ -12,6 +12,7 @@ import com.sourav.weatherbd.Handlers.StatusNavBarColorHandler;
 import com.sourav.weatherbd.R;
 
 public class SettingsActivity extends AppCompatActivity {
+    private StatusNavBarColorHandler statusNavBarColorHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setThemeConfigs();
+        statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -37,13 +39,12 @@ public class SettingsActivity extends AppCompatActivity {
     private void setThemeConfigs() {
         boolean darkMode = new SettingsManager(this).getDarkMode();
 
-        if (darkMode)
+        if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else {
+            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this, R.color.grey_100);
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
-            StatusNavBarColorHandler statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
-            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this);
+            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this, R.color.grey_3);
         }
 
     }

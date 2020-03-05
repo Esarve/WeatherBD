@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         initializeViews();
         setThemeConfigs();
 
+        statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
         weatherViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(this.getApplication()))
                 .get(WeatherViewModel.class);
@@ -73,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             settingsIcon.setImageResource(R.drawable.ic_settings_white_24dp);
+            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this, R.color.grey_100);
         }
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             settingsIcon.setImageResource(R.drawable.ic_settings_black_24dp);
-            statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
-            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this);
+            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this, R.color.grey_3);
         }
 
     }

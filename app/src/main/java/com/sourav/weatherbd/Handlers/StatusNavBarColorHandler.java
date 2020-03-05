@@ -6,8 +6,6 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
-import com.sourav.weatherbd.R;
-
 public class StatusNavBarColorHandler {
     private static StatusNavBarColorHandler instance;
 
@@ -17,7 +15,7 @@ public class StatusNavBarColorHandler {
         return instance;
     }
 
-    public void setLightStatusNavBar(View view, Activity activity){
+    public void setLightStatusNavBar(View view, Activity activity, int color) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -27,12 +25,12 @@ public class StatusNavBarColorHandler {
             activity.getWindow()
                     .setStatusBarColor(ContextCompat.getColor(activity.getApplication()
                             .getApplicationContext(),
-                            R.color.grey_3));
+                            color));
 
             activity.getWindow()
                     .setNavigationBarColor(ContextCompat.getColor(activity.getApplication()
                             .getApplicationContext(),
-                            R.color.grey_3));
+                            color));
         }
     }
 }
