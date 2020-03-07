@@ -1,5 +1,7 @@
 # WeatherBD
-A simple weather app. It uses openweathermap api to get current weather. It uses Retrofit and GSON under the hood. It also saves last fetched weather weatherObjectForJson as a json and uses it if theres not network connection.
+A simple weather app. It uses openweathermap api to get current weather. It uses Retrofit and GSON under the hood. It caches weather data offline with Realm. Has option to choose location. Supports Dark Mode.
+
 ## Screenshots
-![shot 1](https://i.postimg.cc/kX4NSDwj/Screenshot-1581525852.png) ![shot 1](https://i.postimg.cc/9FndYVnc/Screenshot-1581525855.png)
-![shot 3](https://i.postimg.cc/Z5vrfgGp/Screenshot-1581525859.png) ![shot 4](https://i.postimg.cc/VNyX2gwT/Screenshot-1581525861.png)
+![Imgur](https://i.postimg.cc/sg52fC3d/Screenshot-1583568267.png) ![Imgur](https://i.postimg.cc/GpQhYPBX/Screenshot-1583568274.png)
+![Imgur](https://i.postimg.cc/sXHjHV4S/Screenshot-1583568277.png) ![Imgur](https://i.postimg.cc/4yKJrrW0/Screenshot-1583568284.png)
+![Imgur](https://i.postimg.cc/9MQXB4ZC/Screenshot-1583568290.png)
