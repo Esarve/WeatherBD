@@ -6,8 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightNavigationBar"
-            tools:targetApi="o_mr1">true</item>
         <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
     </style>
 

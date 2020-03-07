@@ -7,6 +7,7 @@
     <color name="colorFontTitle">#616161</color>
     <color name="colorFontMain">#f7f7f7</color>
     <color name="background">#ffffff</color>
+    <color name="navDark">#121212</color>
 
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>

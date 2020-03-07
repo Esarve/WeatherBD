@@ -31,6 +31,8 @@ import io.realm.Realm;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "Weather Log";
+    private static final int DARK = 1;
+    private static final int LIGHT = 2;
     private LiveData<WeatherObjectForJson> weatherLiveData;
     private WeatherViewModel weatherViewModel;
     private TextView location;
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         Realm.init(this);
 
         settingsManager = new SettingsManager(this);
+
+        statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
         initializeViews();
         setThemeConfigs();
 
@@ -72,13 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            statusNavBarColorHandler.changeNavBarColor(getWindow().getDecorView(), this, R.color.navDark,false);
             settingsIcon.setImageResource(R.drawable.ic_settings_white_24dp);
-        }
-        else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            settingsIcon.setImageResource(R.drawable.ic_settings_black_24dp);
-            statusNavBarColorHandler = StatusNavBarColorHandler.getInstance();
-            statusNavBarColorHandler.setLightStatusNavBar(getWindow().getDecorView(), this);
+            statusNavBarColorHandler.changeStatusBarColor(getWindow().getDecorView(), this, R.color.grey_3);
+            statusNavBarColorHandler.changeNavBarColor(getWindow().getDecorView(), this, R.color.grey_3,true);
         }
 
     }
